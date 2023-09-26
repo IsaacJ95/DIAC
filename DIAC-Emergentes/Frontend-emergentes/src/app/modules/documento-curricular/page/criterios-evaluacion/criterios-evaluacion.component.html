@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row px-4 flex-column justify-content-center h-100">
+    <div class="col-10 mx-auto my-3"></div>
+
+    <div class="col-10 mx-auto flex-grow-1">
+   
+      <div class="row">
+        <h2 class="fw-bold">Asignaturas seleccionadas</h2>
+        <div class="col-12">
+          <div class="badge bg-danger p-2 me-2 mb-2 rounded-pill"
+            *ngFor="let asignatura of registerDocumentCurricular.asignaturaListSelected">
+            <h5 class="m-0">{{asignatura.nameCourse}}</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <h2 class="fw-bold">Propuesta curricular adaptada</h2>
+        <div class="col-12" *ngFor="let asignatura of registerDocumentCurricular.asignaturaListSelected">
+          <p>
+            <a class="btn btn-secondary mb-4 col-12" data-bs-toggle="collapse"
+              [href]="renameForId(asignatura.nameCourse)" role="button" aria-expanded="false" aria-controls="collapse">
+              {{asignatura.nameCourse}}
+            </a>
+          </p>
+          <!--Collapse-->
+          <div class="collapse" [id]="renameForIdCollapse(asignatura.nameCourse)">
+            <div class="card card-body">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCriterios"
+                data-bs-whatever="@mdo" (click)="openCriterios(asignatura)">
+                + Añadir Criterios
+              </button>
+            </div>
+            <br>
+            <p *ngFor="let criterio of CriteriosListSelected">
+              <label *ngIf="criterio.CourseId == asignatura.id">
+                {{criterio.nameCriteria}}
+              </label>
+            </p>
+          </div>
+        </div>
+    
+
+    <div class="col-10 mx-auto justify-content-center flex-grow-1">
+      <div class="form-floating">
+        <textarea
+          class="form-control"
+          placeholder="Leave a comment here"
+          id="floatingTextarea2"
+          style="height: 100px"
+        ></textarea>
+        <label for="floatingTextarea2">Reajustes...</label>
+      </div>
+    </div>
+    
+    <div class="col-10 mx-auto justify-content-center flex-grow-1 pt-4">
+      <div class="form-floating">
+        <textarea
+          class="form-control"
+          placeholder="Leave a comment here"
+          id="floatingTextarea3"
+          style="height: 100px"
+        ></textarea>
+        <label for="floatingTextarea2">Criterios adaptados...</label>
+      </div>
+    </div>
+  
+    <div class="col-12 text-end my-3 py-3">
+      <button class="btn btn-danger">Cancelar</button>
+      <button class="btn btn-danger ms-3" (click)="nextPage()">
+        siguiente
+      </button>
+    </div>
+  </div>
+</div>
+ 
+<!--Modal de criterios-->
+<div class="modal fade" id="modalCriterios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Criterios</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-0">
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center"
+            *ngFor="let criterio of criteriosActualues">
+            <div class="ms-2 me-auto form-check">
+              <input class="form-check-input" [id]="criterio.id" type="checkbox"
+                (input)="fillResources($event,criterio)">
+              <label class="form-check-label" [for]="criterio.id">
+                {{criterio.nameCriteria}}
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Añadir</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal-->
